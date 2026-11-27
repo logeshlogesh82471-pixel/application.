@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Application Form</title>
+</head>
+<body style="margin: 0; padding: 24px; background-color: #f1f3f5; color: #222; font-family: Arial, sans-serif;">
+	<div style="box-sizing: border-box; width: 100%; max-width: 560px; margin: 24px auto; padding: 28px; background-color: #fff; border: 1px solid #ddd; border-radius: 8px;">
+		<h1 style="margin-top: 0; color: #142d4e;">Application Form</h1>
+		<p>Please complete all fields to submit your application.</p>
+		<form id="applicationForm">
+			<div style="margin-bottom: 16px;">
+				<label for="name">Name</label><br>
+				<input id="name" name="name" type="text" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px;">
+			</div>
+			<div style="margin-bottom: 16px;">
+				<label for="email">Email</label><br>
+				<input id="email" name="email" type="email" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px;">
+			</div>
+			<div style="margin-bottom: 16px;">
+				<label for="phone">Phone Number</label><br>
+				<input id="phone" name="phone" type="tel" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px;">
+			</div>
+			<div style="margin-bottom: 16px;">
+				<label for="age">Age</label><br>
+				<input id="age" name="age" type="number" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px;">
+			</div>
+			<div style="margin-bottom: 16px;">
+				<label for="department">Department</label><br>
+				<select id="department" name="department" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px; background-color: #fff;">
+					<option value="">Select a department</option>
+					<option value="ECE">ECE</option>
+					<option value="CSE">CSE</option>
+					<option value="EEE">EEE</option>
+					<option value="Mechanical">Mechanical</option>
+					<option value="Civil">Civil</option>
+				</select>
+			</div>
+			<div style="margin-bottom: 16px;">
+				<label for="event">Event</label><br>
+				<select id="event" name="event" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px; background-color: #fff;">
+					<option value="">Select an event</option>
+					<option value="Tech Symposium">Tech Symposium</option>
+					<option value="Hackathon">Hackathon</option>
+					<option value="Career Fair">Career Fair</option>
+					<option value="Workshop">Workshop</option>
+				</select>
+				<p id="selectedEvent" aria-live="polite"></p>
+			</div>
+			<div style="margin-bottom: 20px;">
+				<label for="address">Address</label><br>
+				<input id="address" name="address" type="text" style="box-sizing: border-box; width: 100%; margin-top: 6px; padding: 10px; border: 1px solid #aaa; border-radius: 4px;">
+			</div>
+			<button type="submit" style="width: 100%; padding: 12px; color: #fff; background-color: #142d4e; border: 0; border-radius: 4px; cursor: pointer;">Submit Application</button>
+			<p id="formMessage" role="status" aria-live="polite"></p>
+		</form>
+	</div>
+	<script>
+		let applicationForm = document.getElementById("applicationForm");
+
+		applicationForm.addEventListener("submit", function (event) {
+			event.preventDefault();
+
+			let name = document.getElementById("name").value.trim();
+			let email = document.getElementById("email").value.trim();
+			let phone = document.getElementById("phone").value.trim();
+			let age = document.getElementById("age").value.trim();
+			let department = document.getElementById("department").value;
+			let address = document.getElementById("address").value.trim();
+			let formMessage = document.getElementById("formMessage");
+			let atPosition = email.indexOf("@");
+			let dotPosition = email.indexOf(".", atPosition + 1);
+
+			if (name.length === 0 || email.length === 0 || phone.length === 0 || age.length === 0 || department.length === 0 || address.length === 0) {
+				formMessage.textContent = "Please fill in all fields.";
+			} else if (atPosition <= 0 || dotPosition <= atPosition + 1 || dotPosition === email.length - 1) {
+				formMessage.textContent = "Please enter a valid email address.";
+			} else if (phone.length !== 10 || isNaN(phone) || phone.indexOf("+") !== -1 || phone.indexOf("-") !== -1 || phone.indexOf(".") !== -1 || phone.indexOf("e") !== -1 || phone.indexOf("E") !== -1) {
+				formMessage.textContent = "Phone number must contain exactly 10 digits.";
+			} else if (isNaN(age) || Number(age) < 30) {
+				formMessage.textContent = "Age must be 30 or above.";
+			} else {
+				formMessage.textContent = "Application submitted successfully!";
+			}
+		});
+	</script>
+</body>
+</html>
